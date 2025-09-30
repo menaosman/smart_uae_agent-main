@@ -1,0 +1,28 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>SmartUAE Chat</title>
+<style>
+ body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; }
+ textarea, input { width: 100%; padding: 10px; margin: 8px 0; }
+ pre { background:#f6f8fa; padding:12px; white-space:pre-wrap; }
+</style>
+<h1>SmartUAE Chat</h1>
+<textarea id="msg" rows="3" placeholder="Type your message..."></textarea>
+<button id="send">Send</button>
+<pre id="out"></pre>
+<script>
+const sendBtn = document.getElementById('send');
+const msg = document.getElementById('msg');
+const out = document.getElementById('out');
+sendBtn.onclick = async () => {
+  out.textContent = 'Loading...';
+  const r = await fetch('http://127.0.0.1:8000/chat', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({message: msg.value})
+  });
+  const j = await r.json();
+  out.textContent = JSON.stringify(j, null, 2);
+};
+</script>
+
